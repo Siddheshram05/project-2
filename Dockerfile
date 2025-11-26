@@ -1,58 +1,21 @@
-# Use Python 3.11 slim image for smaller size
-FROM python:3.11-slim
+# Use Microsoft's official Playwright image with Python and browsers pre-installed
+FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies for Playwright and other tools
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    ca-certificates \
-    fonts-liberation \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libatk1.0-0 \
-    libatspi2.0-0 \
-    libcups2 \
-    libdbus-1-3 \
-    libdrm2 \
-    libgbm1 \
-    libgtk-3-0 \
-    libnspr4 \
-    libnss3 \
-    libwayland-client0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxkbcommon0 \
-    libxrandr2 \
-    xdg-utils \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first for better caching
+# Copy requirements and install Python packages
 COPY requirements.txt .
-
-# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browsers
-RUN playwright install chromium && \
-    playwright install-deps chromium
-
 # Copy application code
-COPY main.py .
-COPY .env* ./
+COPY . .
 
-# Create log directory
+# Create logs directory
 RUN mkdir -p /app/logs
 
-# Expose port
+# Expose port (Railway/Render will set PORT env var)
 EXPOSE 8000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD python -c "import httpx; httpx.get('http://localhost:8000/health', timeout=5.0)"
-
-# Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start the application
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
