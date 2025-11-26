@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: quiz-solver
+    env: docker
+    plan: starter  # Free tier
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: AIPIPE_TOKEN
+        sync: false  # Set this in Render dashboard
+      - key: PORT
+        value: 8000
+    healthCheckPath: /health
