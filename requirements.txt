@@ -1,0 +1,18 @@
+# Additional requirements for PDF test server
+reportlab==4.0.7
+
+# Your existing requirements
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+httpx==0.25.1
+playwright==1.40.0
+openai==1.35.0
+python-multipart==0.0.6
+pypdf==3.17.0
+pandas==2.1.3
+openpyxl==3.1.2
+beautifulsoup4==4.12.2
+lxml==4.9.3
+pillow==10.1.0
+python-dotenv==1.0.0
