@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: tds-quiz-solver
+    env: docker
+    region: singapore
+    plan: free
+    image:
+      url: docker.io/your-dockerhub-username/quiz-solver:latest
+    envVars:
+      - key: AIPIPE_TOKEN
+        sync: false
