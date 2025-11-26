@@ -1,0 +1,19 @@
+cat > .dockerignore << 'EOF'
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.git
+.gitignore
+*.log
+.DS_Store
+.env
+*.md
+LICENSE
+EOF
